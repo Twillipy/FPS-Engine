@@ -3,7 +3,7 @@ Basic FPS Engine
 About:
 - A basic FPS engine written in C
 
-Description:
+Using:
 - OpenGL 4.5
 - glfw 3.1.2
 - glew 1.13.0
