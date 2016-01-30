@@ -21,4 +21,4 @@ Thanks:
   url: http://www.sonniss.com/sound-effects/free-download-game-audio/
 
 Images:
-![Landscape image](/images/landscape_001.jpg?raw=true "First view of a heightmap terrain")
+![Landscape image](/images/landscape_001.png?raw=true "First view of a heightmap terrain")
