@@ -13,5 +13,5 @@ void main()
 {
   float brightness = dot(frag_normal.xyz, surfaceToLight) / (length(surfaceToLight) * length(frag_normal.xyz));
   brightness = clamp(brightness, 0.2, 1.0);
-	frag_colour = vec4(brightness * texture(my_texture, uv).rgb, 1.0);
+  frag_colour = vec4(brightness * texture(my_texture, uv).rgb, 1.0);
 }

@@ -90,8 +90,8 @@ s_mat3 mat3(float a, float b, float c, float d, float e, float f, float g, float
 
 s_mat4 perspective_matrix(float fov, float ratio, float near, float far)
 {
-	float f = cos(fov/2) / sin(fov/2); // cot(theta) = cos(theta)/sin(theta)
-	return mat4(f/ratio,0,0,0,
+  float f = cos(fov/2) / sin(fov/2); // cot(theta) = cos(theta)/sin(theta)
+  return mat4(f/ratio,0,0,0,
               0,f,0,0,
               0,0,(far+near)/(near-far),2*far*near/(near-far),
               0,0,-1,0);

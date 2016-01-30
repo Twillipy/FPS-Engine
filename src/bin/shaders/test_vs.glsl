@@ -17,7 +17,7 @@ uniform mat4 vp_matrix;
 void main()
 {
   mat4 rotation_matrix = mat4(rot1, rot2, rot3, rot4);
-	gl_Position = vp_matrix * rotation_matrix * vec4(v, 1.0);
-	uv = vt;
+  gl_Position = vp_matrix * rotation_matrix * vec4(v, 1.0);
+  uv = vt;
   frag_normal = vec4(vn, 1.0)*rotation_matrix;
 }
