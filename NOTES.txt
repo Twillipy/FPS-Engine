@@ -1,0 +1,18 @@
+To do:
+- Fullscreen key
+- FPS limiter
+- Look into multiple VAOs perhaps not being optimal
+- Yaw might be backwards
+- Check consistency of matrices being inverted
+- Use keypresses as toggles to change position/etc in the physics thread
+- Add .mtl files
+- Lights
+- Add shadows (Shadow mapping?)
+- GUI
+- Finish parsing level.dat
+- Separate the physics into its own thread
+- 
+
+Current:
+- Vertex normal calculation not working for terrain heightmaps
+-
