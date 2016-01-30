@@ -19,6 +19,3 @@ Thanks:
 - Sonniss for royalty free audio
 - Licence: http://www.sonniss.com/gdc-bundle-license/
 - url: http://www.sonniss.com/sound-effects/free-download-game-audio/
-
-Images:
-![Landscape image](/images/landscape_001.png?raw=true "First view of a heightmap terrain")
