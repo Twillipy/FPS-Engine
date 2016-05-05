@@ -12,7 +12,6 @@
 #include <assert.h>
 #include "matrix.h"
 
-#define PI 3.14159
 #define RAND_BETWEEN(a, b) ((b-a)*rand()/RAND_MAX + a)
 #define DEG_TO_RAD(x) (x*0.0174532925)
 #define RAD_TO_DEG(x) (x/0.0174532925)
@@ -50,7 +49,7 @@ typedef struct
 
 typedef struct
 {
-  float pitch; // Up/Down
+  float M_PItch; // Up/Down
   float yaw;   // Left/Right
   float pos[3];
 } s_camera;
@@ -109,27 +108,30 @@ typedef struct
   s_texture *textures;
 } s_rendering;
 
-s_camera camera;
-int window_width;
-int window_height;
-int window_fullscreen;
-int max_fps;
+typedef struct
+{
+  s_camera camera;
+  int window_width;
+  int window_height;
+  int window_fullscreen;
+  int max_fps;
+} s_settings;
 
 // level.c
 int simulate(s_level* level);
 int level_add_box(s_level* level, float x, float y, float z, float r_x, float r_y, float r_z);
 int level_add_teapot(s_level* level, float x, float y, float z, float r_x, float r_y, float r_z);
+int load_landscape(s_model* model, const char *path);
 
 // object.c
 int create_object(s_object* object, s_model* model);
 
 // io.c
-int load_settings(const char *filename);
+int load_settings(s_settings *settings, const char *filename);
 char* load_shader(const char *filename);
 int print_log(const char *format, ...);
 void print_log_shader_info(GLuint shader_index);
 int load_bmp(s_texture* texture, const char* filename);
-int load_landscape(s_model* model, const char *path);
 
 // level.c
 int load_level(s_level* level, const char *path);

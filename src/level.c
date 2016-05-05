@@ -59,8 +59,8 @@ int load_landscape(s_model* model, const char *path)
   {
     for(w = 0; w < heightmap.width; ++w)
     {
-      model->vt[2*current+0] = (float)w/heightmap.width;
-      model->vt[2*current+1] = (float)h/heightmap.height;
+      model->vt[2*current+0] = 32.0*(float)w/heightmap.width;
+      model->vt[2*current+1] = 32.0*(float)h/heightmap.height;
       current++;
     }
   }

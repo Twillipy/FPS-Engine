@@ -4,7 +4,7 @@ int prepare_buffers(s_level* level)
 {
   assert(level != NULL);
   assert(level->objects != NULL);
-
+  
   /*
   int i;
   for(i = 0; i < level->num_objects; ++i)
@@ -102,17 +102,19 @@ int main()
   printf("%s %s\n\n", __DATE__, __TIME__);
   getchar();
   #endif
+
+  s_settings settings;
   
   err = GL_NO_ERROR;
-  r = load_settings("settings.ini");
+  r = load_settings(&settings, "settings.ini");
   if(r != 0)
   {
     print_log("ERROR: Failed to load settings.ini\n");
     // Default values
-    window_width = 640;
-    window_height = 480;
-    window_fullscreen = 0;
-    max_fps = 60;
+    settings.window_width = 640;
+    settings.window_height = 480;
+    settings.window_fullscreen = 0;
+    settings.max_fps = 60;
   }
 
   // Start GL context and O/S window using the GLFW helper library
@@ -126,7 +128,7 @@ int main()
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
   glfwWindowHint(GLFW_SAMPLES, 4);
 
-  GLFWwindow *window = glfwCreateWindow(window_width, window_height, "OpenGL Test", NULL, NULL);
+  GLFWwindow *window = glfwCreateWindow(settings.window_width, settings.window_height, "OpenGL Test", NULL, NULL);
   if(!window)
   {
     print_log("ERROR: could not open window with GLFW3\n");
@@ -134,6 +136,7 @@ int main()
     return 1;
   }
 
+  glfwSetWindowUserPointer(window, &settings);
   glfwMakeContextCurrent(window);
   glfwSetWindowSizeCallback(window, glfw_window_size_callback);
   glfwSetCursorPosCallback(window, glfw_cursor_position_callback);
@@ -172,6 +175,10 @@ int main()
   if(r != 0) {print_log("ERROR: Failed to load textures//skybox.bmp\n");}
 
   s_texture texture_terrain;
+  r = load_bmp(&texture_terrain, "textures//grass.bmp");
+  if(r != 0) {print_log("ERROR: Failed to load textures//grass.bmp\n");}
+  /*
+  s_texture texture_terrain;
   r = load_bmp(&texture_terrain, "models//landscapes//map_001_texture.bmp");
   if(r != 0) {print_log("ERROR: Failed to load models//landscapes//map_001_texture.bmp\n");}
 
@@ -179,12 +186,10 @@ int main()
   int i;
   for(i = 0; i < texture_terrain.width*texture_terrain.height; ++i)
   {
-    /*
-    texture_terrain.data[3*i+0] = 100;
-    texture_terrain.data[3*i+1] = 100;
-    texture_terrain.data[3*i+2] = 100;
-    continue;
-    */
+    //texture_terrain.data[3*i+0] = 100;
+    //texture_terrain.data[3*i+1] = 100;
+    //texture_terrain.data[3*i+2] = 100;
+    //continue;
     
     texture_terrain.data[3*i+0] = 10;
     texture_terrain.data[3*i+2] = 10;
@@ -192,6 +197,7 @@ int main()
          if(texture_terrain.data[3*i+1] < 50)  {texture_terrain.data[3*i+1] = 50;}
     else if(texture_terrain.data[3*i+1] > 200) {texture_terrain.data[3*i+1] = 200;}
   }
+  */
   
   // Vertex Shader
   const char* vertex_shader = load_shader("shaders//test_vs.glsl");
@@ -208,7 +214,7 @@ int main()
   glGetShaderiv(vs, GL_COMPILE_STATUS, &params);
   if(GL_TRUE != params)
   {
-    print_log("ERROR: GL shader index %i did not compile.\n", vs);
+    print_log("ERROR: GL shader index %i did not comM_PIle.\n", vs);
     print_log_shader_info(vs);
     return -1;
   }
@@ -228,7 +234,7 @@ int main()
   glGetShaderiv(fs, GL_COMPILE_STATUS, &params);
   if(GL_TRUE != params)
   {
-    print_log("ERROR: GL shader index %i did not compile.\n", fs);
+    print_log("ERROR: GL shader index %i did not comM_PIle.\n", fs);
     print_log_shader_info(fs);
     return -1;
   }
@@ -281,15 +287,15 @@ int main()
   glBindTexture(GL_TEXTURE_2D, texture_terrain_id);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, texture_terrain.width, texture_terrain.height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture_terrain.data);
   
-  camera.pitch = 0;
-  camera.yaw = PI;
-  camera.pos[0] = 0.0;  // 0.0
-  camera.pos[1] = 25.0; // 0.0
-  camera.pos[2] = 0.0;  // -4.0
+  settings.camera.M_PItch = 0;
+  settings.camera.yaw = M_PI;
+  settings.camera.pos[0] = 0.0;  // 0.0
+  settings.camera.pos[1] = 25.0; // 0.0
+  settings.camera.pos[2] = 0.0;  // -4.0
 
   printf("Creating level\n");
   s_level* level = malloc(1 * sizeof *level);
@@ -331,8 +337,8 @@ int main()
     */
     
     // Create camera matrix
-    s_mat4 proj_matrix = perspective_matrix(45.0, (float)window_width/window_height, 0.1, 1000.0);
-    s_mat4 view_matrix = fps_view_rh(vec3(camera.pos[0], camera.pos[1], camera.pos[2]), camera.pitch, camera.yaw);
+    s_mat4 proj_matrix = perspective_matrix(45.0, (float)settings.window_width/settings.window_height, 0.1, 1000.0);
+    s_mat4 view_matrix = fps_view_rh(vec3(settings.camera.pos[0], settings.camera.pos[1], settings.camera.pos[2]), settings.camera.M_PItch, settings.camera.yaw);
     s_mat4 vp_matrix = multiply_mat4(proj_matrix, view_matrix);
     
     glUniformMatrix4fv(loc_vp_matrix, 1, GL_TRUE, vp_matrix.m);

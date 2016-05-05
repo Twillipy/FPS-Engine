@@ -1,11 +1,12 @@
 #include "defs.h"
 
-int load_settings(const char *filename)
+int load_settings(s_settings *settings, const char *filename)
 {
   if(filename == NULL) {return -1;}
-
+  if(settings == NULL) {return -2;}
+  
   FILE *file = fopen(filename, "r");
-  if(file == NULL) {return -2;}
+  if(file == NULL) {return -3;}
 
   char line[256];
   while(fgets(line, sizeof(line), file))
@@ -17,26 +18,26 @@ int load_settings(const char *filename)
 
     if(strncmp(setting, "width", 5) == 0)
     {
-      window_width = atoi(value);
+      settings->window_width = atoi(value);
     }
     else if(strncmp(setting, "height", 6) == 0)
     {
-      window_height = atoi(value);
+      settings->window_height = atoi(value);
     }
     else if(strncmp(setting, "fullscreen", 10) == 0)
     {
       if(strncmp(value, "TRUE", 4) == 0)
       {
-        window_fullscreen = 1;
+        settings->window_fullscreen = 1;
       }
       else
       {
-        window_fullscreen = 0;
+        settings->window_fullscreen = 0;
       }
     }
     else if(strncmp(setting, "max_fps", 7) == 0)
     {
-      max_fps = atoi(value);
+      settings->max_fps = atoi(value);
     }
     else
     {
@@ -91,7 +92,7 @@ int load_bmp(s_texture* texture, const char *filename)
   int image_size = *(int*)&(header[0x22]);
   int width      = *(int*)&(header[0x12]);
   int height     = *(int*)&(header[0x16]);
-  //int bpp        = *(int*)&(header[0x1C]); // bits per pixel
+  //int bpp        = *(int*)&(header[0x1C]); // bits per M_PIxel
 
   if(image_size == 0) {image_size = 3*width*height;}
   if(data_pos == 0) {data_pos = 54;}

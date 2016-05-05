@@ -49,7 +49,7 @@ s_mat4 mat4(float, float, float, float, float, float, float, float, float, float
 
 s_mat4 identity_matrix();
 s_mat4 perspective_matrix(float fov, float ratio, float near, float far);
-s_mat4 fps_view_rh(s_vec3 eye, float pitch, float yaw);
+s_mat4 fps_view_rh(s_vec3 eye, float M_PItch, float yaw);
 s_mat3 rotation_z_mat3(float angle);
 s_mat3 rotation_y_mat3(float angle);
 s_mat3 rotation_x_mat3(float angle);

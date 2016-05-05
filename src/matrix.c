@@ -111,16 +111,16 @@ s_mat4 ortho(float l, float r, float b, float t, float n, float f)
   return mat;
 }
 
-s_mat4 fps_view_rh(s_vec3 eye, float pitch, float yaw)
+s_mat4 fps_view_rh(s_vec3 eye, float M_PItch, float yaw)
 {
-  float cosPitch = cos(pitch);
-  float sinPitch = sin(pitch);
+  float cosM_PItch = cos(M_PItch);
+  float sinM_PItch = sin(M_PItch);
   float cosYaw = cos(yaw);
   float sinYaw = sin(yaw);
 
   s_vec3 xaxis = vec3(cosYaw, 0, -sinYaw);
-  s_vec3 yaxis = vec3(sinYaw * sinPitch, cosPitch, cosYaw * sinPitch);
-  s_vec3 zaxis = vec3(sinYaw * cosPitch, -sinPitch, cosPitch * cosYaw);
+  s_vec3 yaxis = vec3(sinYaw * sinM_PItch, cosM_PItch, cosYaw * sinM_PItch);
+  s_vec3 zaxis = vec3(sinYaw * cosM_PItch, -sinM_PItch, cosM_PItch * cosYaw);
 
   // Create a 4x4 view matrix from the right, up, forward and eye position vectors
   return mat4(xaxis.i, xaxis.j, xaxis.k, -dot_vec3(xaxis, eye),

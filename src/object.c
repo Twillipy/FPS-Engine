@@ -9,7 +9,7 @@ int create_object(s_object* object, s_model* model)
   glBindVertexArray(object->vao);
   
   // v buffer
-  glGenBuffers(1, &object->vbo);  
+  glGenBuffers(1, &object->vbo);
   glBindBuffer(GL_ARRAY_BUFFER, object->vbo);
   glBufferData(GL_ARRAY_BUFFER, 3*(model->num_indices)*(sizeof *model->vn), model->v, GL_STATIC_DRAW);
   glEnableVertexAttribArray(0);
